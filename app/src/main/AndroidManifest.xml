@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.aidenriddler.wysp">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Login"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Shop_Install" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ShopF" android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".Chats" android:screenOrientation="portrait"></activity>
+        <activity android:name=".Settings" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ProductView" android:screenOrientation="portrait"></activity>
+        <activity android:name=".Add_product_page" android:screenOrientation="portrait"
+            android:parentActivityName=".ShopF"></activity>
+        <activity android:name=".Product_Image_View" android:screenOrientation="portrait"
+            android:parentActivityName=".ShopF"></activity>
+        <activity android:name=".ChatView"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".Chats"></activity>
+        <activity android:name=".ContactSearch"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".Chats"></activity>
+
+        <activity android:name=".ProductViewEdit1"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".ShopF"></activity>
+
+        <activity android:name=".ProductViewEdit2"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".ShopF"></activity>
+
+        <activity android:name=".AccountType"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".Login"></activity>
+
+        <activity android:name=".UserSignUp"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".AccountType"></activity>
+    </application>
+
+</manifest>

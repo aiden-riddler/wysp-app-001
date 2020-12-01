@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">WySP</string>
+
+    <string name="email_h">Email</string>
+    <string name="password_h">Password</string>
+    <string name="e.passwd_h">Enter Password</string>
+    <string name="c.passwd_h">Confirm Password</string>
+    <string name="sign_in_h">SIGN IN</string>
+    <string name="submit">SUBMIT</string>
+    <string name="dont_have_account">Do not have an account?</string>
+    <string name="sign_up">SIGN UP NOW</string>
+    <string name="forgot_p">Forgot Password?</string>
+    <string name="shop_name_h">Shop Name</string>
+    <string name="city_h">City</string>
+    <string name="country_h">Country</string>
+    <string name="shops">SHOP</string>
+    <string name="chats">CHATS</string>
+    <string name="settings">ACCOUNT</string>
+
+    <string name="stc_trans">stc_trans</string>
+    <string name="cts_trans">cts_trans</string>
+    <string name="add_product">ADD PRODUCT</string>
+    <string name="setup_loc">SETUP LOCATION</string>
+
+    <string name="selectShoptype">Select shop the product belongs to</string>
+
+    <string name="send_message">How u doin?</string>
+    <string name="receive_message">Joeeey!</string>
+    <string name="enter_message">Enter message</string>
+
+    <string name="search">Enter contact</string>
+    <string name="send_m">send message</string>
+    <string name="time">00:00 AM</string>
+    <string name="chats_number">1</string>
+
+    <string name="p_name">Product Name</string>
+    <string name="p_type">Product Type</string>
+    <string name="price">Price</string>
+    <string name="q_desc">Quantity Description</string>
+    <string name="add_info">Additional Info</string>
+    <string name="priceExample">200</string>
+    <string name="c_symbol">Ksh</string>
+    <string name="edit_title">Edit Product Info</string>
+
+    <string name="acc_info">Select Account Type. With a business account you can sell and buy online whereas a user account you can only buy</string>
+    <string name="user_account">USER ACCOUNT</string>
+    <string name="Business_account">BUSINESS ACCOUNT</string>
+
+    <string name="first_name">First Name</string>
+    <string name="s_up">Sign Up</string>
+
+</resources>
