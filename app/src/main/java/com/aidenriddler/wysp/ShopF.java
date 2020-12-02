@@ -52,6 +52,7 @@ public class ShopF extends AppCompatActivity {
 
     //shops
     private Map<String, String> shopTypes;
+    private String shopName;
     private  Shop shop;
     private String currencySymbol;
 
@@ -110,6 +111,7 @@ public class ShopF extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 shop = documentSnapshot.toObject(Shop.class);
                 shopTypes = shop.getShopTypes();
+                shopName = shop.getShopName();
                 Log.d("wysp",shop.getCountry());
                 for(int i=0; i < shopTypes.size(); i++){
                     Log.d("wysp", shopTypes.get(String.valueOf(i)));
@@ -127,6 +129,7 @@ public class ShopF extends AppCompatActivity {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         shop = documentSnapshot.toObject(Shop.class);
                         shopTypes = shop.getShopTypes();
+                        shopName = shop.getShopName();
                         currencySymbol = shop.getCurrency();
                     }
                 });
@@ -226,6 +229,7 @@ public class ShopF extends AppCompatActivity {
         String transitionName = getString(R.string.stc_trans);
         intent.putExtra("email",email);
         intent.putExtra("uid",uid);
+        intent.putExtra("shopName",shopName);
 
         ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(ShopF.this,sharedView,transitionName);
         startActivity(intent,activityOptions.toBundle());

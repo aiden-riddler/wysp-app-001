@@ -54,6 +54,7 @@ public class ChatView extends AppCompatActivity {
     private Uri profileImageUri;
     private String email;
     private String intentEmail;
+    private String shopName;
 
 
     private String contact;
@@ -84,7 +85,7 @@ public class ChatView extends AppCompatActivity {
             controlEmail = intentEmail;
         }
         email = intent.getStringExtra("email");
-        Log.d("wysp",email);
+        shopName = intent.getStringExtra("shopName");
         uid = intent.getStringExtra("uid");
 
 
@@ -213,7 +214,7 @@ public class ChatView extends AppCompatActivity {
     }
 
     private void sendMessage(String message) {
-        ChatMessage chatMessage = new ChatMessage(message,uid,email,profileImageUri.toString(),new Date(),false,false,false,false);
+        ChatMessage chatMessage = new ChatMessage(message,shopName,email,profileImageUri.toString(),new Date(),false,false,false,false);
         CollectionReference collectionReference = FirebaseFirestore.getInstance().collection(controlEmail);
         collectionReference.add(chatMessage);
         CollectionReference collectionReference1 = FirebaseFirestore.getInstance().collection(email);

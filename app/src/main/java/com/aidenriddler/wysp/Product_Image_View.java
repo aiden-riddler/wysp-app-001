@@ -116,7 +116,7 @@ public class Product_Image_View extends AppCompatActivity {
         sliderView.startAutoCycle();
 
         //firebase
-
+        db = FirebaseFirestore.getInstance();
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override

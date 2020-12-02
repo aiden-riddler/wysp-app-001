@@ -13,15 +13,27 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ContactSearch extends AppCompatActivity {
 
     private ExtendedFloatingActionButton sendMessage;
     private TextInputEditText searchBar;
+
+    private String email;
+    private String uid;
+    private String shopName;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_search);
+
+        //intents
+        Intent intent = getIntent();
+        email = intent.getStringExtra("email");
+        uid = intent.getStringExtra("uid");
+        shopName = intent.getStringExtra("shopName");
 
         sendMessage = findViewById(R.id.send_message);
         searchBar = findViewById(R.id.searchBar);
@@ -50,6 +62,9 @@ public class ContactSearch extends AppCompatActivity {
         }else{
             Intent intent = new Intent(ContactSearch.this,ChatView.class);
             intent.putExtra("Contact",contact);
+            intent.putExtra("shopName",shopName);
+            intent.putExtra("email",email);
+            intent.putExtra("uid",uid);
             startActivity(intent);
         }
     }

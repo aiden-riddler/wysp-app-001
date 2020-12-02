@@ -51,7 +51,7 @@ public class ChatMessagesAdapter extends RecyclerView.Adapter<ChatMessagesAdapte
         }else {
             holder.chatsNumber.setVisibility(View.INVISIBLE);
         }
-        holder.senderNameView.setText(chatMessages.get(position).getEmail());
+        holder.senderNameView.setText(chatMessages.get(position).getUserID());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a");
         String time = simpleDateFormat.format(chatMessages.get(position).getTimestamp());
         holder.timeView.setText(time);

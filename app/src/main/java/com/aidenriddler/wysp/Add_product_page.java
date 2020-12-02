@@ -125,7 +125,7 @@ public class Add_product_page extends AppCompatActivity {
                                 .choose(MimeType.ofAll())
                                 .countable(true)
                                 .maxSelectable(6)
-                                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.material_emphasis_high_type))
+                                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.album_item_height))
                                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                                 .thumbnailScale(0.85f)
                                 .imageEngine(new GlideEngine())

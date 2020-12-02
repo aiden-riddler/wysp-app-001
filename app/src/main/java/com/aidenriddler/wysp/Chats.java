@@ -84,6 +84,7 @@ public class Chats extends AppCompatActivity implements ChatMessagesAdapter.OnIt
     private String email;
     private String uid;
     private FirebaseAuth mAuth;
+    private String shopName;
 
     @Override
     protected void onStart() {
@@ -107,6 +108,7 @@ public class Chats extends AppCompatActivity implements ChatMessagesAdapter.OnIt
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         uid = intent.getStringExtra("uid");
+        shopName = intent.getStringExtra("shopName");
 
         if (email == null){
             mAuth = FirebaseAuth.getInstance();
@@ -174,6 +176,9 @@ public class Chats extends AppCompatActivity implements ChatMessagesAdapter.OnIt
 
     private void launchContactSearch() {
         Intent intent = new Intent(Chats.this,ContactSearch.class);
+        intent.putExtra("shopName",shopName);
+        intent.putExtra("email",email);
+        intent.putExtra("uid",uid);
         startActivity(intent);
     }
 
@@ -279,7 +284,7 @@ public class Chats extends AppCompatActivity implements ChatMessagesAdapter.OnIt
                 .choose(MimeType.ofAll())
                 .countable(true)
                 .maxSelectable(1)
-                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.material_emphasis_high_type))
+                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.album_item_height))
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                 .thumbnailScale(0.85f)
                 .imageEngine(new GlideEngine())
@@ -415,6 +420,7 @@ public class Chats extends AppCompatActivity implements ChatMessagesAdapter.OnIt
         Intent intent = new Intent(Chats.this,ChatView.class);
         intent.putExtra("intentEmail",latestMessages.get(position).getEmail());
         Log.d("wysp",email);
+        intent.putExtra("shopName",shopName);
         intent.putExtra("email",email);
         intent.putExtra("uid",uid);
         startActivity(intent);
