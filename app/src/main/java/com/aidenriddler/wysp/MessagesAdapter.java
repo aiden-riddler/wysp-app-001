@@ -64,30 +64,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
         }else{
             holder.mesageStatus.setVisibility(View.INVISIBLE);
             final String senderEmail = chatMessages.get(position).getEmail();
-            FirebaseFirestore.getInstance().collection(senderEmail).whereEqualTo("email",email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        ArrayList<String> docIDs = new ArrayList<>();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            if (document.toObject(ChatMessage.class).getRead() == false){
-                                docIDs.add(document.getId());
-                            }
-                        }
-                        for(int i=0; i<docIDs.size(); i++){
-                            FirebaseFirestore.getInstance().collection(senderEmail).document(docIDs.get(i)).update("read",true).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (!task.isSuccessful()){
-                                        Log.d("wysp","FAILED",task.getException());
-                                        return;
-                                    }else {
-                                        Log.d("wysp","UPDATE READ SUCCESSFUL");
-                                    }
-                                }
-                            });
-                        }
-                    }
-                });
+
         }
 
     }

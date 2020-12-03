@@ -159,6 +159,9 @@ public class ProductViewEdit1 extends AppCompatActivity {
                 for(int i = 0; i<imagePathSize;i++){
                     intent1.putExtra(String.valueOf(i),String.valueOf(imageUris.get(i)));
                 }
+                for(int i = 0; i<imagePaths.size();i++){
+                    intent1.putExtra("p" + i,String.valueOf(imagePaths.get(i)));
+                }
                 startActivity(intent1);
 
                 break;

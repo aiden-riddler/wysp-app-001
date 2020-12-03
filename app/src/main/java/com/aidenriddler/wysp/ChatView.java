@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,10 +32,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatView extends AppCompatActivity {
 
@@ -42,10 +46,13 @@ public class ChatView extends AppCompatActivity {
     private CardView sendCard;
     private ImageView sendImage;
     private EditText messageView;
+    private CircleImageView profileImage;
+    private ImageView backButton;
 
     //firebase
     private FirebaseAuth mAuth;
     private String uid;
+    private TextView contactName;
     private FirebaseStorage storage;
     private StorageReference storageRef;
     private StorageReference storageReference;
@@ -55,6 +62,7 @@ public class ChatView extends AppCompatActivity {
     private String email;
     private String intentEmail;
     private String shopName;
+
 
 
     private String contact;
@@ -71,17 +79,14 @@ public class ChatView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_view);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().hide();
 
         Intent intent = getIntent();
         contact = intent.getStringExtra("Contact");
         intentEmail = intent.getStringExtra("intentEmail");
         if (contact != null){
-            getSupportActionBar().setTitle(contact);
             controlEmail = contact;
         }else if (intentEmail != null){
-            getSupportActionBar().setTitle(intentEmail);
             controlEmail = intentEmail;
         }
         email = intent.getStringExtra("email");
@@ -95,11 +100,27 @@ public class ChatView extends AppCompatActivity {
         sendImage = findViewById(R.id.send);
         messageView = findViewById(R.id.message);
         chatsRecycler = findViewById(R.id.chats_recycler);
+        profileImage = findViewById(R.id.profile_image);
+        contactName = findViewById(R.id.contactName);
+        backButton = findViewById(R.id.backButton);
 
         //firebase
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference().child("Images/" + email + "/ProfileImage");
         storageReference = storage.getReference().child("Images/" + controlEmail + "/ProfileImage" );
+        FirebaseFirestore.getInstance().collection("Shops").whereEqualTo("email",controlEmail).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Shop shop = document.toObject(Shop.class);
+                        contactName.setText(shop.getShopName());
+                    }
+                } else {
+                    Log.d("wysp", "Error getting documents: ", task.getException());
+                }
+            }
+        });
         storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -116,6 +137,7 @@ public class ChatView extends AppCompatActivity {
             @Override
             public void onSuccess(Uri uri) {
                 contactUri = uri;
+                Picasso.get().load(uri).into(profileImage);
             }
         });
 
@@ -128,7 +150,12 @@ public class ChatView extends AppCompatActivity {
                 validateMessage();
             }
         });
-
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         sendCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,17 +163,7 @@ public class ChatView extends AppCompatActivity {
             }
         });
         setupRecyclerView();
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.homeAsUp:
-                Log.d("wysp","HOME AS UP PRESSED");
-                onBackPressed();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void setupRecyclerView() {
@@ -159,10 +176,54 @@ public class ChatView extends AppCompatActivity {
                     return;
                 }
                 ArrayList<ChatMessage> chatMessages = new ArrayList<>();
+                ArrayList<String> unreadMessagesdocumentIDs = new ArrayList<>();
                 for (QueryDocumentSnapshot doc: value){
                     ChatMessage message = doc.toObject(ChatMessage.class);
                     chatMessages.add(message);
+                    if (message.getSentByme() == false && message.getRead() == false){
+                        unreadMessagesdocumentIDs.add(doc.getId());
+                    }
                 }
+
+                for(int a = 0; a<unreadMessagesdocumentIDs.size();a++){
+                    FirebaseFirestore.getInstance().collection(email).document(unreadMessagesdocumentIDs.get(a)).update("read",true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (!task.isSuccessful()){
+                                Log.d("wysp","FAILED",task.getException());
+                                return;
+                            }else {
+                                Log.d("wysp","UPDATE READ SUCCESSFUL");
+                            }
+                        }
+                    });
+                }
+
+                FirebaseFirestore.getInstance().collection(controlEmail).whereEqualTo("email",email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        ArrayList<String> docIDs = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.toObject(ChatMessage.class).getRead() == false){
+                                docIDs.add(document.getId());
+                            }
+                        }
+                        for(int i=0; i<docIDs.size(); i++){
+                            FirebaseFirestore.getInstance().collection(controlEmail).document(docIDs.get(i)).update("read",true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (!task.isSuccessful()){
+                                        Log.d("wysp","FAILED",task.getException());
+                                        return;
+                                    }else {
+                                        Log.d("wysp","UPDATE READ SUCCESSFUL");
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
 
                 ArrayList<Date> dates = new ArrayList<>();
                 Log.d("wysp","Dates before arraylist.sort");
@@ -191,6 +252,12 @@ public class ChatView extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
     }
 
     private void validateMessage() {

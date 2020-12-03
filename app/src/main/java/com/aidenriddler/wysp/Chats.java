@@ -31,12 +31,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -113,6 +115,26 @@ public class Chats extends AppCompatActivity implements ChatMessagesAdapter.OnIt
         if (email == null){
             mAuth = FirebaseAuth.getInstance();
             email = mAuth.getCurrentUser().getEmail();
+        }
+
+        if (shopName == null){
+            Source source = Source.CACHE;
+            FirebaseFirestore.getInstance().collection("Shops").document(mAuth.getCurrentUser().getUid()).get(source).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    shopName = documentSnapshot.toObject(Shop.class).getShopName();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    FirebaseFirestore.getInstance().collection("Shops").document(mAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            shopName = documentSnapshot.toObject(Shop.class).getShopName();
+                        }
+                    });
+                }
+            });
         }
 
         //initialisation
@@ -207,7 +229,7 @@ public class Chats extends AppCompatActivity implements ChatMessagesAdapter.OnIt
                         }
                     }
                     usedDeliveryEmails.add(delChatMessage.getEmail());
-                    if (usedDelivery == false){
+                    if (usedDelivery == false && delChatMessage.getSentByme() == false){
                         FirebaseFirestore.getInstance().collection(delChatMessage.getEmail()).whereEqualTo("email",email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -228,8 +250,9 @@ public class Chats extends AppCompatActivity implements ChatMessagesAdapter.OnIt
                                                 if (!task.isSuccessful()){
                                                     Log.d("wysp","FAILED",task.getException());
                                                     return;
+                                                }else{
+                                                    Log.d("wysp","DELIVERY UPDATE SUCCESFUL");
                                                 }
-                                                Log.d("wysp","DELIVERY UPDATE SUCCESFUL");
                                             }
                                         });
                                     }

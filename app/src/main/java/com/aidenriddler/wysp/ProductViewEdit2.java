@@ -65,6 +65,7 @@ public class ProductViewEdit2 extends AppCompatActivity {
     private String currencySymbol;
     private int imagePathSize;
     private ArrayList<Uri> imageUris = new ArrayList<>();
+    private ArrayList<String> oldImagePaths = new ArrayList<>();
     private String docID;
 
     //product
@@ -114,6 +115,10 @@ public class ProductViewEdit2 extends AppCompatActivity {
             Uri uri = Uri.parse(intent.getStringExtra(String.valueOf(i)));
             imageUris.add(uri);
         }
+        for(int i = 0; i<imagePathSize;i++){
+            oldImagePaths.add(intent.getStringExtra("p"+i));
+        }
+
 
         sliderView = findViewById(R.id.imageSlider);
         pAddInfoView = findViewById(R.id.add_info);
@@ -352,7 +357,7 @@ public class ProductViewEdit2 extends AppCompatActivity {
         for(int i=0;i<imageUris.size();i++){
             oldUris.add(String.valueOf(imageUris.get(i)));
         }
-        product = new Product(pname2,price2,ptype2,description2,addInfo2,pShopType,oldUris,currencySymbol);
+        product = new Product(pname2,price2,ptype2,description2,addInfo2,pShopType,oldImagePaths,currencySymbol);
 
         WriteBatch batch = FirebaseFirestore.getInstance().batch();
 

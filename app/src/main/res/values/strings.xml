@@ -25,8 +25,9 @@
     <string name="selectShoptype">Select shop the product belongs to</string>
 
     <string name="send_message">How u doin?</string>
-    <string name="receive_message">Joeeey!</string>
+    <string name="receive_message">Shane Haq</string>
     <string name="enter_message">Enter message</string>
+    <string name="status">Online</string>
 
     <string name="search">Enter contact</string>
     <string name="send_m">send message</string>

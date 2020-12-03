@@ -9,11 +9,12 @@
         android:id="@+id/chatsNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="60dp"
+        android:fontFamily="@font/sura"
         android:text="@string/chats_number"
         android:textColor="#000000"
-        android:textSize="18sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/time" />
 
@@ -35,9 +36,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/sura"
         android:maxWidth="152dp"
         android:text="@string/receive_message"
         android:textColor="#302E65"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@id/profile_image"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,8 +48,9 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="32dp"
+        android:fontFamily="@font/sura"
         android:text="@string/time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -56,7 +60,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/sura"
         android:maxWidth="295dp"
         android:text="@string/send_message"
         app:layout_constraintStart_toEndOf="@+id/profile_image"
